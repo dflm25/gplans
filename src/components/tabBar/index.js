@@ -1,7 +1,13 @@
 /**
  * Tab bar
  */
+import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import MaterialIcons from 'react-native-vector-icons';
+
+// Page
+import Boarding from 'gplans/src/pages/boarding';
+import HomePage from 'gplans/src/pages/home';
 
 const Tab = createBottomTabNavigator();
 
@@ -15,34 +21,24 @@ function TabBar() {
       }}
     >
       <Tab.Screen
-        name="Feed"
-        component={Feed}
+        name="boarding"
+        component={Boarding}
+        options={{
+          tabBarLabel: 'boarding',
+          tabBarIcon: ({ color, size }) => (
+            <MaterialIcons name="all_inbox" color={color} size={size} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="home"
+        component={HomePage}
         options={{
           tabBarLabel: 'Home',
           tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="home" color={color} size={size} />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Notifications"
-        component={Notifications}
-        options={{
-          tabBarLabel: 'Updates',
-          tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="bell" color={color} size={size} />
+            <MaterialIcons name="bell" color={color} size={size} />
           ),
           tabBarBadge: 3,
-        }}
-      />
-      <Tab.Screen
-        name="Profile"
-        component={Profile}
-        options={{
-          tabBarLabel: 'Profile',
-          tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="account" color={color} size={size} />
-          ),
         }}
       />
     </Tab.Navigator>
