@@ -73,6 +73,7 @@ function App () {
                 borderBottomColor: 'gray',
                 borderBottomWidth: 1,
               },
+              showIcon: true,
             }}
           >
           <Stack.Screen name="Home" component={HomeTabs} />

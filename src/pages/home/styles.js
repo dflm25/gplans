@@ -3,7 +3,7 @@
  */
 
 // Dependencies
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
 
 /**
  * @file styles.js
@@ -11,13 +11,18 @@ import { StyleSheet } from 'react-native';
  * @description Styles definition for component.
  */
 
+const { width, height } = Dimensions.get('window');
+
 const styles = StyleSheet.create({
   view: {
     flex: 1,
-    backgroundColor: 'yellow',
     alignItems: 'center',
     justifyContent: 'center',
   },
+  list: { 
+    width: width - 20, 
+    height: 800,
+  }
 });
 
 export default styles;

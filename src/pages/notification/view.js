@@ -11,7 +11,7 @@ import styles from './styles';
 function Home () {
   return (
     <View style={styles.view}>
-      <Text>Hola home</Text>
+      <Text>Hola Notification</Text>
     </View>
   );
 }
