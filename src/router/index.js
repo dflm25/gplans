@@ -1,46 +1,34 @@
 /**
  * Router
  */
-
 import React, { useEffect, useState } from 'react';
 import { View } from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 // Navigator
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 // Pages
-import HomeTabs from './tabs';
 import OnBoarding from '../pages/boarding';
+import HomePage from '../pages/home';
+import SearchPage from '../pages/search';
+import CreatePost from '../pages/createPost';
+import Account from '../pages/account';
 
 // Redux
 import { Provider } from 'react-redux';
 import store from '../redux/store';
 
-// helpers
+// Storage
 import * as storage from '../utils/storage';
 
-const Stack = createStackNavigator();
+const Tab = createBottomTabNavigator();
 
 const getBoaring = async (setBoarding, setIsLoading) => {
   const response = await storage.getStorage('boarding');
   setBoarding(response);
   setIsLoading(false);
-}
-
-function getHeaderTitle(route) {
-  const routeName = route.state
-    ? route.state.routes[route.state.index].name
-    : route.params?.screen || 'The Home s App';
-
-  switch (routeName) {
-    case 'Favorites':
-      return 'Favorites';
-    case 'Info':
-      return 'Info about the App';
-  }
-  return routeName;
 }
 
 function App () {
@@ -55,16 +43,18 @@ function App () {
 
   if (loading)
     return <View />;
+  
+  if (!boarding)
+    return (<OnBoarding />)
 
   return (
     <Provider store={store}>
       <NavigationContainer>
-        <Stack.Navigator
+        <Tab.Navigator
             initialRouteName={ !boarding ? 'boarding': 'home' }
             tabBarOptions={{
-              activeTintColor: '#e91e63',
-              gestureEnabled: false,
               headerTitleAlign: 'center',
+              /*gestureEnabled: false,
               headerBackTitleVisible: false,
               headerTintColor: 'black',
               headerStyle: {
@@ -73,12 +63,46 @@ function App () {
                 borderBottomColor: 'gray',
                 borderBottomWidth: 1,
               },
-              showIcon: true,
+              showIcon: true,*/
             }}
           >
-          <Stack.Screen name="Home" component={HomeTabs} />
-          <Stack.Screen name="boarding" component={OnBoarding} />
-        </Stack.Navigator>
+          <Tab.Screen 
+            name="home" component={HomePage}
+            options={{
+              headerShown: true,
+              tabBarIcon: () => <Icon name="home" color="#333" size={22} />,
+              tabBarVisible: true,
+              tabBarLabel: () => null
+            }}
+          />
+          <Tab.Screen 
+            name="search" 
+            component={SearchPage} 
+            options={{
+              tabBarLabel: () => null,
+              tabBarIcon: () => <Icon name="search" color="#333" size={22} />,
+              tabBarVisible: true,
+            }}
+          />
+          <Tab.Screen 
+            name="createPost" 
+            component={CreatePost} 
+            options={{
+              tabBarLabel: () => null,
+              tabBarIcon: () => <Icon name="create" color="#333" size={22} />,
+            }}
+          />
+          <Tab.Screen 
+            name="account"
+            component={Account} 
+            options={{
+              headerShown: true,
+              tabBarLabel: () => null,
+              tabBarIcon: () => <Icon name="account-box" color="#333" size={26} />,
+              tabBarVisible: false,
+            }}
+          />
+        </Tab.Navigator>
       </NavigationContainer>
     </Provider>
   );
